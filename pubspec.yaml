@@ -59,8 +59,8 @@ flutter:
   fonts:
     - family: Oswald
       fonts:
-        - asset: fonts/Oswald-Regular.ttf
-        - asset: fonts/Oswald-Bold.ttf
+        - asset: assets/fonts/Oswald-Regular.ttf
+        - asset: assets/fonts/Oswald-Bold.ttf
           weight: 800
 
   #
