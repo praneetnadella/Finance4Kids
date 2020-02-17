@@ -1,6 +1,8 @@
 import 'package:finance4kids/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dart:io' show Platform;
 import 'dart:math';
 
@@ -22,10 +24,9 @@ class _StockGameState extends State<StockGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stock Market Game"),
+        title: Text("Stock Market Game", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),),
       ),
       body: Column (children: <Widget>[
-
           //First Text Outputs
           SizedBox(height: 70),
           Text("PRICE: \$" + _price.toString(),
@@ -60,18 +61,7 @@ class _StockGameState extends State<StockGame> {
               child: Text("Sell", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20, fontFamily: 'Oswald'),), 
               onPressed: () => {
                 if (_shares > _owned) {
-                  if(Platform.isIOS) {
-                    CupertinoAlertDialog (actions: <Widget>[
-                      CupertinoDialogAction(child: Text("Ok"),),
-                      ], 
-                      title: Text("You cannot sell that many shares."),),
-                  }
-                  else {
-                    AlertDialog (actions: <Widget>[
-                      FlatButton(child: Text("Ok"),),
-                      ], 
-                      title: Text("You cannot sell that many shares."), elevation: 24.0,),
-                  }
+                  showAlertDialog(context, "You cannot sell that many shares.")
                 }
                 else {
                   _balance = _balance + (_shares*_price),
@@ -93,18 +83,7 @@ class _StockGameState extends State<StockGame> {
               child: Text("Buy", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20, fontFamily: 'Oswald'),), 
               onPressed: () => {
                 if (_shares * _price > _balance) {
-                  if(Platform.isIOS) {
-                    CupertinoAlertDialog (actions: <Widget>[
-                      CupertinoDialogAction(child: Text("Ok"),),
-                      ], 
-                      title: Text("You cannot buy that many shares."),),
-                  }
-                  else {
-                    AlertDialog (actions: <Widget>[
-                      FlatButton(child: Text("Ok"),),
-                      ], 
-                      title: Text("You cannot buy that many shares."), elevation: 24.0,),
-                  }
+                  showAlertDialog(context, "You cannot sell that many shares.")
                 }
                 else {
                   _balance = _balance - (_shares*_price),
@@ -115,19 +94,11 @@ class _StockGameState extends State<StockGame> {
               color: Colors.orange,),
           ],),
           
-          //
+          //Balance
           SizedBox(height: 50),
           Text("BALANCE: \$" + _balance.toString(),
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 35, fontFamily: 'Oswald'),),
         ],),
-         // This trailing comma makes auto-formatting nicer for build methods.
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
       );
   }
 
@@ -152,5 +123,52 @@ class _StockGameState extends State<StockGame> {
   //   else if (_balance >= 1000000) {
       
   //   }
+  // }
+
+  showAlertDialog(BuildContext context, String message) {
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(message),
+      actions: [
+        FlatButton(
+          child: Text("Got It!"),
+          onPressed: () { },),
+      ],
+    );
+
+    CupertinoAlertDialog alertIOS = CupertinoAlertDialog(
+      title: Text(message),
+      actions: <Widget>[
+        CupertinoDialogAction(child: Text("Got It!"),),
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        if (Platform.isIOS) {
+          return alertIOS;
+        }
+        else {
+          return alert;
+        }
+      },
+    );
+  }
+
+  // _save() async {
+  //       final prefs = await SharedPreferences.getInstance();
+  //       final key = 'my_int_key';
+  //       final value = 42;
+  //       prefs.setInt(key, value);
+  //       print('saved $value');
+  // }
+
+  // _read() async {
+  //       final prefs = await SharedPreferences.getInstance();
+  //       final key = 'my_int_key';
+  //       final value = prefs.getInt(key) ?? 0;
+  //       print('read: $value');
   // }
 }
