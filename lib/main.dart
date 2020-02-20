@@ -1,5 +1,8 @@
-import 'package:finance4kids/game.dart';
-import 'package:finance4kids/finances.dart';
+import 'game.dart';
+import 'loginscreen.dart';
+import 'newuser.dart';
+import 'home.dart';
+
 
 import 'package:flutter/material.dart';
 
@@ -15,6 +18,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
       ),
       home: MyHomePage(title: 'Finance4Kids'),
+      routes: <String, WidgetBuilder>{
+          '/home': (BuildContext context) => HomePage(title: 'Home'),
+          '/game': (BuildContext context) => StockGame(),
+          '/login': (BuildContext context) => LoginScreen(),
+          '/register': (BuildContext context) => RegisterScreen(),
+      }
     );
   }
 }
@@ -30,9 +39,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  void _incrementCounter() {
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,13 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(child: Text("Manage Your Finances"), onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Finances()),
-              );
+            // RaisedButton(child: Text("Manage Your Finances"), onPressed: () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => Finances()),
+            //   );
 
-            },),
+            // },),
             RaisedButton(child: Text("Play The Game"), onPressed: () {
               Navigator.push(
                 context,

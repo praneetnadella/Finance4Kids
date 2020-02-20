@@ -1,7 +1,5 @@
-import 'package:finance4kids/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:io' show Platform;
 import 'dart:math';
@@ -156,19 +154,4 @@ class _StockGameState extends State<StockGame> {
       },
     );
   }
-
-  // _save() async {
-  //       final prefs = await SharedPreferences.getInstance();
-  //       final key = 'my_int_key';
-  //       final value = 42;
-  //       prefs.setInt(key, value);
-  //       print('saved $value');
-  // }
-
-  // _read() async {
-  //       final prefs = await SharedPreferences.getInstance();
-  //       final key = 'my_int_key';
-  //       final value = prefs.getInt(key) ?? 0;
-  //       print('read: $value');
-  // }
 }
