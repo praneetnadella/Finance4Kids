@@ -1,3 +1,5 @@
+import 'package:finance4kids/newtask.dart';
+
 import 'game.dart';
 import 'loginscreen.dart';
 import 'newuser.dart';
@@ -60,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => StockGame()),
+              );
+            },),
+            RaisedButton(child: Text("Finance input"), onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NewTask()),
               );
             },),
           ],
