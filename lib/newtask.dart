@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class NewTask extends StatefulWidget {
   @override
@@ -6,13 +7,19 @@ class NewTask extends StatefulWidget {
 }
 
 class _NewTaskState extends State<NewTask> {
-  String name = '';
-  TextEditingController namectrl = new TextEditingController();
-  String price = '';
-  TextEditingController pricectrl = new TextEditingController();
+  List<String> entries = [];
 
-  String date;
+  String entry;
+
+  String name = '';
+  TextEditingController namectrl = TextEditingController();
+
+  String price = '';
+  TextEditingController pricectrl = TextEditingController();
+
   DateTime _date = DateTime.now();
+  String  date;
+
   Future<Null> selectDate(BuildContext ctx) async {
     final DateTime picked = await showDatePicker(
         context: ctx,
@@ -23,7 +30,7 @@ class _NewTaskState extends State<NewTask> {
     if (picked != null && picked != _date) {
       setState(() {
         _date = picked;
-        date = _date.toString();
+        date = _date.toString().substring(0,10);
       });
     }
   }
@@ -43,6 +50,7 @@ class _NewTaskState extends State<NewTask> {
   void initState() {
     _dropDownItems = buildDropdownMenuItems(_categories);
     category = _dropDownItems[0].value;
+    date = _date.toString().substring(0,10);
     super.initState();
   }
 
@@ -61,17 +69,28 @@ class _NewTaskState extends State<NewTask> {
     });
   }
 
+  addExpense() {
+    setState(() {
+      entry = name + "," + price + "," + date + "," + category;
+      print(entry);
+      entries.add(entry);
+      Toast.show("Expense Added", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+      namectrl.clear();
+      pricectrl.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Expense Log",
+          "Log Expenses",
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: 
           MainAxisAlignment.spaceAround,
@@ -91,11 +110,6 @@ class _NewTaskState extends State<NewTask> {
                   name = text;
                 });
               },
-              onSubmitted: (String text) {
-                setState(() {
-                  namectrl.dispose();
-                });
-              },
             ),
             Text(
               "Price",
@@ -112,11 +126,6 @@ class _NewTaskState extends State<NewTask> {
                   price = text;
                 });
               },
-              onSubmitted: (String text) {
-                setState(() {
-                  pricectrl.clear();
-                });
-              },
             ),
             RaisedButton(
               color: Colors.orange,
@@ -131,6 +140,11 @@ class _NewTaskState extends State<NewTask> {
                 selectDate(context);
               },
             ),
+            Text("Selected date: " + date, style: TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
             Text(
               "Select a category",
               style: TextStyle(
@@ -143,7 +157,20 @@ class _NewTaskState extends State<NewTask> {
               value: category,
               items: _dropDownItems,
               onChanged: onChangeDropdown,
-            )
+            ),
+            RaisedButton(
+              color: Colors.orange,
+              child: Text(
+                "Add Expense",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                addExpense();
+              },
+            ),
           ],
         ),
       ),
