@@ -1,3 +1,5 @@
+import 'package:finance4kids/splashscreen.dart';
+
 import 'game.dart';
 import 'loginscreen.dart';
 import 'newuser.dart';
@@ -49,13 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // RaisedButton(child: Text("Manage Your Finances"), onPressed: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => Finances()),
-            //   );
+            RaisedButton(child: Text("Login"), onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SplashPage()),
+              );
 
-            // },),
+            },),
             RaisedButton(child: Text("Play The Game"), onPressed: () {
               Navigator.push(
                 context,
